@@ -1,4 +1,4 @@
-# Report 
+# 1. Sequential Solution
 
 ## What I did 
 I implemented a library `sudoku.o` with the function `int checkSudoku(int *S)` which can test if a sudoku grid is valid. I also implemented a frontend binary `main` which tests the library against a number of programatically generated positive and negative test cases (the function `int * generateSudoku(int offset, int valid)`). 
