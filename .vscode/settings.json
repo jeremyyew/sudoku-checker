@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "*.ml": "ocaml",
+        "*.mli": "ocaml",
+        "*.py": "python",
+        "*.c": "c",
+        "string.h": "c",
+        "stdlib.h": "c"
+    }
+}
