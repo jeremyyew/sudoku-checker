@@ -41,3 +41,9 @@ Note that the function expects a conventional 9x9 sudoku grid.
 - [ ] Refactor to allow sudoku grid of dimension n (where n is a square)?
 - [ ] Come up with more positive test cases? 
 - [ ] Free memory after generating and testing each individual test case? 
+
+
+# 2. Parallel Solution: Processes
+
+## What I did 
+

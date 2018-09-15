@@ -3,37 +3,38 @@
 #include <string.h>
 #include <math.h>
 #include <sudoku.h>
-#include <sys/types.h>
-#include <sys/mman.h>
-#include <sys/wait.h>
-#include <unistd.h>
-
-static int *shared;
 
 int main(int argc, char **argv)
 {
 
-    int DIM = 9;
+    int (*SOLUTIONS[])(int *) = {checkSudoku,
+                                 checkSudokuProcess};
+    const char *SOLUTION_NAMES[] = {"sequential",
+                                    "process"};
+
+    int WHICH_SOLUTION = 0;
     int NUM_TEST_CASES = DIM;
-    if (argc == 2)
+    if (argc == 3)
     {
-        NUM_TEST_CASES = atoi(argv[1]);
+        WHICH_SOLUTION = atoi(argv[1]);
+        NUM_TEST_CASES = atoi(argv[2]);
     }
     else
     {
-        printf("Please provide argument for number of valid sudoku solutions to test (max 18).\n");
+        printf("Please provide argument for solution type (0 = sequential, 1 = processes),\n and number of valid sudoku solutions to test (max 18).\n For example: ./main 0 18\n");
         return 0;
     }
 
-    // int **validTestInputs = malloc(NUM_TEST_CASES * sizeof(int *));
-    // int **invalidTestInputs = malloc(NUM_TEST_CASES * sizeof(int *));
+    printf("\n**** Using %s solution ****\n\n", SOLUTION_NAMES[WHICH_SOLUTION]);
+
     printf("\nGenerating %d sudoku grids for test cases...\n\n", NUM_TEST_CASES * 2);
     printf("Testing %d positive cases...\n", NUM_TEST_CASES);
     int FAILURES = 0;
+    int (*check)(int *) = SOLUTIONS[WHICH_SOLUTION];
     for (int i = 0; i < NUM_TEST_CASES; i++)
     {
         int *validSudoku = generateSudoku(i, 1);
-        if (!checkSudoku(validSudoku))
+        if (!check(validSudoku))
         {
             printf("Positive test case %d/%d failed!\n", i + 1, NUM_TEST_CASES);
             FAILURES++;
@@ -41,11 +42,12 @@ int main(int argc, char **argv)
         }
         printf("Positive test case %d/%d passed!\n", i + 1, NUM_TEST_CASES);
     };
+    printf("\n");
     printf("Testing %d negative cases...\n", NUM_TEST_CASES);
     for (int i = 0; i < NUM_TEST_CASES; i++)
     {
         int *invalidSudoku = generateSudoku(i, 0);
-        if (checkSudoku(invalidSudoku))
+        if (check(invalidSudoku))
         {
             printf("Negative test case %d/%d failed!\n", i + 1, NUM_TEST_CASES);
             FAILURES++;
