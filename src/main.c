@@ -41,6 +41,7 @@ int main(int argc, char **argv)
             continue;
         }
         printf("Positive test case %d/%d passed!\n", i + 1, NUM_TEST_CASES);
+        free(validSudoku);
     };
     printf("\n");
     printf("Testing %d negative cases...\n", NUM_TEST_CASES);
@@ -54,6 +55,7 @@ int main(int argc, char **argv)
             continue;
         }
         printf("Negative test case %d/%d passed!\n", i + 1, NUM_TEST_CASES);
+        free(invalidSudoku);
     };
     if (FAILURES > 0)
     {

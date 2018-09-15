@@ -1,4 +1,4 @@
-toto: clean main
+toto: main
 
 FLAGS= -I include
 

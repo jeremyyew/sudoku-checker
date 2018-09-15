@@ -142,7 +142,7 @@ int checkSudoku(int *S)
 
 int checkSudokuProcess(int *S)
 {
-    // Assign sudoku grid to shared memory. We avoid needlessly copying the grid. This is safe because we will not be mutating the grid.
+    // Assign sudoku grid to shared memory. We avoid needlessly copying the grid to the other process(es). This is safe because we will not be mutating the grid.
     int *sharedSudoku = mmap(NULL, 81 * sizeof(int), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
 
     sharedSudoku = S;
@@ -152,6 +152,7 @@ int checkSudokuProcess(int *S)
     int childEnd = DIM / 2;
     int parentStart = DIM / 2;
     int parentEnd = DIM;
+
     int pid = fork();
     if (pid == 0) //child
     {
