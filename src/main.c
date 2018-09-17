@@ -8,9 +8,11 @@ int main(int argc, char **argv)
 {
 
     int (*SOLUTIONS[])(int *) = {checkSudoku,
-                                 checkSudokuProcess};
+                                 checkSudokuProcess,
+                                 checkSudokuPthreads};
     const char *SOLUTION_NAMES[] = {"sequential",
-                                    "process"};
+                                    "process",
+                                    "pthreads"};
 
     int WHICH_SOLUTION = 0;
     int NUM_TEST_CASES = DIM;
@@ -21,7 +23,7 @@ int main(int argc, char **argv)
     }
     else
     {
-        printf("Please provide argument for solution type (0 = sequential, 1 = processes),\n and number of valid sudoku solutions to test (max 18).\n For example: ./main 0 18\n");
+        printf("Please provide argument for solution type (0 = sequential, 1 = processes, 2 = pthreads),\n and number of valid sudoku solutions to test (max 18).\n For example: ./main 0 18\n");
         return 0;
     }
 

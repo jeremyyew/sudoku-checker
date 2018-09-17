@@ -71,3 +71,29 @@ Besides that the implementation was pretty straightforward.
 
 # Potential improvements for this iteration  
 - [ ] Compare time taken for each solution
+
+
+# 3. Parallel Solution: pthreads
+
+## What I did 
+Used `pthreads` API to create two threads which execute checking in parallel. 
+Added `checkSudokuPthreads` to `sudoku.o`, which has the same functionality as `checkSudoku`. 
+
+To run, provide argument for solution type (0 = sequential, 1 = processes, 2 = pthreads), and number of valid sudoku solutions to test (max 18). For example:
+```
+$ make clean
+$ make
+$ main 1 18 
+```
+
+### Some other important changes: 
+NIL. 
+
+## How it works
+Had to add `void *checkEveryRowColGridInRangeWithStruct(void *a)` to be passed to `pthread_create`. It unpacks the struct `args` which allows us to pass `checkEveryRowColGridInRange` more than one argument. 
+
+## What was difficult 
+Ensuring type correctness, minimizing type coercion warnings. 
+
+# Potential improvements for this iteration  
+- [ ] Compare time taken for each solution.
