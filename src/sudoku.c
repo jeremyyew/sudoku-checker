@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-#include <sys/mman.h>
 #include <sys/wait.h>
 #include <unistd.h>
 #include <pthread.h>
@@ -146,43 +145,6 @@ int checkSudoku(int *S)
 {
     return checkEveryRowColGridInRange(S, 0, DIM);
 };
-
-int checkSudokuProcess(int *S)
-{
-    // Assign sudoku grid to shared memory. We avoid needlessly copying the grid to the other process(es). This is safe because we will not be mutating the grid.
-    int *sharedSudoku = mmap(NULL, 81 * sizeof(int), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
-
-    sharedSudoku = S;
-    // Store results in shared memory.
-    int *flags = mmap(NULL, 2 * sizeof(int), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
-    int childStart = 0;
-    int childEnd = DIM / 2;
-    int parentStart = DIM / 2;
-    int parentEnd = DIM;
-
-    int pid = fork();
-    if (pid == 0) //child
-    {
-        printf("------STARTING CHILD PROCESSING------\n");
-        flags[0] = checkEveryRowColGridInRange(sharedSudoku, childStart, childEnd);
-        printf("------ENDING CHILD PROCESSING------\n");
-        exit(0);
-    }
-    else //parent
-    {
-        printf("------STARTING PARENT PROCESSING------\n");
-        flags[1] = checkEveryRowColGridInRange(sharedSudoku, parentStart, parentEnd);
-        printf("------ENDING PARENT PROCESSING------\n");
-        // need to wait otherwise we might print the shared memory before child has modified it.
-        wait(NULL);
-    }
-    // only parent runs the rest of the code because child would have exited already
-    if (!flags[0] || !flags[1])
-    {
-        return 0;
-    }
-    return 1;
-}
 
 void *checkEveryRowColGridInRangeWithStruct(void *a)
 {

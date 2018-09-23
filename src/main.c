@@ -2,12 +2,12 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
-#include <sudoku.h>
+#include <sudokuAPI.h>
 
 int main(int argc, char **argv)
 {
 
-    int (*SOLUTIONS[])(int *) = {checkSudoku,
+    int (*SOLUTIONS[])(int *) = {checkSudokuSequential,
                                  checkSudokuProcess,
                                  checkSudokuPthreads};
     const char *SOLUTION_NAMES[] = {"sequential",
