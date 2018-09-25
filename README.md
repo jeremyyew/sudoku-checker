@@ -36,7 +36,7 @@ Note that the function expects a conventional 9x9 sudoku grid.
 - Initially, the logic to traverse the array as a grid and collect values per subgrid to test for uniqueness was tricky. 
 - Afterwards, when I decided to index directly into the original array, the difficult part was finding a mathematical function to express the index of an element belonging to a subgrid. 
 
-# Potential improvements for this iteration  
+## Potential improvements for this iteration  
 - [ ] Allow input of file location containing an input grid.
 - [ ] Refactor to allow sudoku grid of dimension n (where n is a square)?
 - [ ] Come up with more positive test cases? 
@@ -69,7 +69,7 @@ Initially in the parallel processing lab I made a careless mistake of assigning 
 
 Besides that the implementation was pretty straightforward. 
 
-# Potential improvements for this iteration  
+## Potential improvements for this iteration  
 - [ ] Compare time taken for each solution
 
 
@@ -95,5 +95,30 @@ Had to add `void *checkEveryRowColGridInRangeWithStruct(void *a)` to be passed t
 ## What was difficult 
 Ensuring type correctness, minimizing type coercion warnings. 
 
-# Potential improvements for this iteration  
+## Potential improvements for this iteration  
 - [ ] Compare time taken for each solution.
+
+
+# 4. Parallel Solution: openmp
+
+## What I did 
+ 
+
+To run, provide argument for solution type (0 = sequential, 1 = processes, 2 = pthreads, 3=openmp), and number of valid sudoku solutions to test (max 18). For example:
+```
+$ make clean
+$ make
+$ main 3 18 
+```
+
+### Some other important changes: 
+- Divided code into implementation-specific libraries.
+- Expose only necessary functions in `sudokuAPI.h`. 
+
+## How it works
+
+## What was difficult 
+
+## Potential improvements for this iteration  
+
+# 5. Performance analysis across implementations

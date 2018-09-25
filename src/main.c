@@ -9,10 +9,12 @@ int main(int argc, char **argv)
 
     int (*SOLUTIONS[])(int *) = {checkSudokuSequential,
                                  checkSudokuProcess,
-                                 checkSudokuPthreads};
+                                 checkSudokuPthreads,
+                                 checkSudokuOpenMP};
     const char *SOLUTION_NAMES[] = {"sequential",
                                     "process",
-                                    "pthreads"};
+                                    "pthreads",
+                                    "openmp"};
 
     int WHICH_SOLUTION = 0;
     int NUM_TEST_CASES = DIM;
