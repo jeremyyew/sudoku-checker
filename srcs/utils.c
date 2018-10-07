@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <math.h>
 
+int DIM = 9;
 /**
  * load_sudoku return EXIT_SUCCESS when filename ccontains a valid sudoku and that this soduko is correctly loaded in memory.
  **/
@@ -22,7 +23,7 @@ int load_sudoku(char *filename, int *grid)
       {
         if (c < 49 || c > 57)
         {
-          //fprintf(stderr,"Invalid Character: %d",c);
+          fprintf(stderr, "Invalid Character: %d. ", c);
           fclose(fp);
           return EXIT_FAILURE;
         }
@@ -64,19 +65,34 @@ int getNthColKthIndex(int n, int k)
   return n + (k * 9);
 };
 
+int exactlyOneEach(int flags[])
+{
+  for (int i = 0; i < 9; i++)
+  {
+    if (flags[i] != 1)
+    {
+      return 0;
+    }
+  }
+  return 1;
+}
+
 int checkEverySection(int *S, int (*getNthSectionKthIndex)(int, int), int start, int end)
 {
-  int sum;
   for (int n = start; n < end; n++)
   {
-    sum = 0;
+    int flags[9] = {0};
     for (int k = 0; k < 9; k++)
     {
-      sum += S[getNthSectionKthIndex(n, k)];
+      int val = S[getNthSectionKthIndex(n, k)];
+      if (val >= 1 && val <= 9) //we already validate inputs, but just to make sure no seg fault
+      {
+        flags[val - 1] += 1;
+      }
     }
-    if (sum != 45)
+    if (exactlyOneEach(flags) == 0)
     {
-      printf("Failed at %dth ", n + 1);
+      // printf("Failed at %dth ", n + 1);
       return 0;
     }
   }
@@ -100,23 +116,23 @@ int checkEveryRow(int *S, int start, int end)
 
 int checkEveryRowColGridInRange(int *S, int start, int end)
 {
-  printf("checking row %d to %d\n", start, end - 1);
+  // printf("checking row %d to %d\n", start, end - 1);
   int rowsAreValid = checkEveryRow(S, start, end);
   if (!rowsAreValid)
   {
-    printf("row.\n");
+    // printf("row.\n");
   }
-  printf("checking col to %d to %d\n", start, end - 1);
+  // printf("checking col to %d to %d\n", start, end - 1);
   int colsAreValid = checkEveryCol(S, start, end);
   if (!colsAreValid)
   {
-    printf("column.\n");
+    // printf("column.\n");
   }
-  printf("checking grid to %d to %d\n", start, end - 1);
+  // printf("checking grid to %d to %d\n", start, end - 1);
   int gridsAreValid = checkEveryGrid(S, start, end);
   if (!gridsAreValid)
   {
-    printf("grid.\n");
+    // printf("grid.\n");
   }
   if (!rowsAreValid || !colsAreValid || !gridsAreValid)
   {
@@ -134,17 +150,17 @@ int *generateSudoku(int offset, int valid)
   int *grid = malloc(n_squared * sizeof(int));
   if (valid == 1)
   {
-    printf("Valid Sudoku grid %d:\n\n", offset);
+    // printf("Valid Sudoku grid %d:\n\n", offset);
   }
   else
   {
-    printf("Invalid Sudoku grid %d:\n\n", offset);
+    // printf("Invalid Sudoku grid %d:\n\n", offset);
   }
 
   for (int row = 0; row < 9; row++)
   {
     const int rowStart = row * 9;
-    printf("\t\t");
+    // printf("\t\t");
 
     int startVal = (row / 3);
     int vertOffset = (row % 3) * 3;
@@ -168,10 +184,10 @@ int *generateSudoku(int offset, int valid)
       }
 
       grid[currentIndex] = val;
-      printf("%d ", val);
+      // printf("%d ", val);
     };
-    printf("\n");
+    // printf("\n");
   };
-  printf("\n");
+  // printf("\n");
   return grid;
 };

@@ -4,19 +4,22 @@
 
 int checkEverySectionParallelized(int *S, int (*getNthSectionKthIndex)(int, int), int start, int end)
 {
-    int sum;
     int flag = 1;
 #pragma omp parallel for
     for (int n = start; n < end; n++)
     {
-        sum = 0;
+        int flags[9] = {0};
         for (int k = 0; k < 9; k++)
         {
-            sum += S[getNthSectionKthIndex(n, k)];
+            int val = S[getNthSectionKthIndex(n, k)];
+            if (val >= 1 && val <= 9) //we already validate inputs, but just to make sure no seg fault
+            {
+                flags[val - 1] += 1;
+            }
         }
-        if (sum != 45)
+        if (exactlyOneEach(flags) == 0)
         {
-            printf("Failed at %dth ", n + 1);
+            // printf("Failed at %dth ", n + 1);
             flag = 0;
         }
     }
@@ -40,23 +43,23 @@ int checkEveryRowParallelized(int *S, int start, int end)
 
 int checkEveryRowColGridInRangeParallelized(int *S, int start, int end)
 {
-    printf("checking row %d to %d\n", start, end - 1);
+    // printf("checking row %d to %d\n", start, end - 1);
     int rowsAreValid = checkEveryRowParallelized(S, start, end);
     if (!rowsAreValid)
     {
-        printf("row.\n");
+        // printf("row.\n");
     }
-    printf("checking col to %d to %d\n", start, end - 1);
+    // printf("checking col to %d to %d\n", start, end - 1);
     int colsAreValid = checkEveryColParallelized(S, start, end);
     if (!colsAreValid)
     {
-        printf("column.\n");
+        // printf("column.\n");
     }
-    printf("checking grid to %d to %d\n", start, end - 1);
+    // printf("checking grid to %d to %d\n", start, end - 1);
     int gridsAreValid = checkEveryGridParallelized(S, start, end);
     if (!gridsAreValid)
     {
-        printf("grid.\n");
+        // printf("grid.\n");
     }
     if (!rowsAreValid || !colsAreValid || !gridsAreValid)
     {

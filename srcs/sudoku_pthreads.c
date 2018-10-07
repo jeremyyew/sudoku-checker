@@ -11,7 +11,7 @@ struct CheckerArgs
 
 void *checkEveryRowColGridInRangeWithStruct(void *a)
 {
-    printf("*** Starting a thread... ***\n");
+    // printf("*** Starting a thread... ***\n");
     struct CheckerArgs *args = (struct CheckerArgs *)a;
     int *S = args->sudoku;
     int returnVal = checkEveryRowColGridInRange(S, args->start, args->end);
@@ -36,9 +36,9 @@ int check_sudoku(int *S)
     }
     void *flags[2];
     pthread_join(thread1, &flags[0]);
-    printf("Thread 1 terminated!\n");
+    // printf("Thread 1 terminated!\n");
     pthread_join(thread2, &flags[1]);
-    printf("Thread 2 terminated!\n");
+    // printf("Thread 2 terminated!\n");
 
     if (!(int)flags[0] || !(int)flags[1])
     {

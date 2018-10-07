@@ -16,16 +16,16 @@ int check_sudoku(int *S)
     int pid = fork();
     if (pid == 0) //child
     {
-        printf("------STARTING CHILD PROCESSING------\n");
+        // printf("------STARTING CHILD PROCESSING------\n");
         flags[0] = checkEveryRowColGridInRange(S, childStart, childEnd);
-        printf("------ENDING CHILD PROCESSING------\n");
+        // printf("------ENDING CHILD PROCESSING------\n");
         exit(0);
     }
     else //parent
     {
-        printf("------STARTING PARENT PROCESSING------\n");
+        // printf("------STARTING PARENT PROCESSING------\n");
         flags[1] = checkEveryRowColGridInRange(S, parentStart, parentEnd);
-        printf("------ENDING PARENT PROCESSING------\n");
+        // printf("------ENDING PARENT PROCESSING------\n");
         // need to wait otherwise we might print the shared memory before child has modified it.
         wait(NULL);
     }
