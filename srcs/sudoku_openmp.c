@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <sudoku.h>
+#include <sudoku_internal.h>
 
 int checkEverySectionParallelized(int *S, int (*getNthSectionKthIndex)(int, int), int start, int end)
 {
@@ -65,7 +65,7 @@ int checkEveryRowColGridInRangeParallelized(int *S, int start, int end)
     return 1;
 }
 
-int checkSudokuOpenMP(int *S)
+int check_sudoku(int *S)
 {
     return checkEveryRowColGridInRangeParallelized(S, 0, DIM);
 };

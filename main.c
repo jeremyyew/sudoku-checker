@@ -2,28 +2,16 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <sys/time.h>
-#include <sudokuAPI.h>
+#include <sudoku.h>
 
 int main(int argc, char **argv)
 {
 
-    int (*SOLUTIONS[])(int *) = {checkSudokuSequential,
-                                 checkSudokuProcess,
-                                 checkSudokuPthreads,
-                                 checkSudokuOpenMP};
-    const char *SOLUTION_NAMES[] = {"sequential",
-                                    "process",
-                                    "pthreads",
-                                    "openmp"};
+    printf("Start sudoku program.\n");
 
-    int WHICH_SOLUTION = 0;
-    WHICH_SOLUTION = atoi(argv[1]);
-    int (*check_sudoku)(int *) = SOLUTIONS[WHICH_SOLUTION];
-    const char *solution_name = SOLUTION_NAMES[WHICH_SOLUTION];
-
-    printf("Start %s sudoku program.\n", solution_name);
-    for (int i = 2; i < argc; i++)
+    for (int i = 1; i < argc; i++)
     {
+
         char *filename = argv[i];
         int *grid = (int *)malloc(9 * 9 * sizeof(int));
 

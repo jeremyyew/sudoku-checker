@@ -1,15 +1,13 @@
-FLAGS= -I include -fopenmp -lpthread
+CFLAGS=-I./include -lpthread -openmp
 
-toto: clean main2 main
+all : prog_sequential prog_process prog_pthreads prog_openmp 
+test : test_sequential test_process test_pthreads test_openmp 
 
-clean : 
-	rm -f src/*.o *.o main main2
+prog_% : srcs/sudoku_%.o main.o srcs/utils.o
+	gcc ${CFLAGS} -o $@ $^
 
-%.o : %.c
-	gcc ${FLAGS} -c $< -o $@  -O3 
+test_% : prog_%
+	./$< input*.txt
 
-main2 : main2.o src/sudoku.o src/sudoku-process.o src/sudoku-pthreads.o src/sudoku-openmp.o src/utils.o
-	gcc ${FLAGS} $^ -o $@ 
-
-main: main.o src/sudoku.o src/sudoku-process.o src/sudoku-pthreads.o src/sudoku-openmp.o src/utils.o
-	gcc ${FLAGS} $^ -o $@ 
+clean :
+	rm -f prog_* *~ */*~ *.o srcs/*.o

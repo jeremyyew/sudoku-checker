@@ -2,9 +2,9 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/mman.h>
-#include <sudoku.h>
+#include <sudoku_internal.h>
 
-int checkSudokuProcess(int *S)
+int check_sudoku(int *S)
 {
     // Store results in shared memory.
     int *flags = mmap(NULL, 2 * sizeof(int), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);

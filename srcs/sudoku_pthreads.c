@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <sudoku.h>
+#include <sudoku_internal.h>
 #include <pthread.h>
 
 struct CheckerArgs
@@ -18,7 +18,7 @@ void *checkEveryRowColGridInRangeWithStruct(void *a)
     return ((void *)returnVal);
 }
 
-int checkSudokuPthreads(int *S)
+int check_sudoku(int *S)
 {
     // Reference: http://www.yolinux.com/TUTORIALS/LinuxTutorialPosixThreads.html
 
