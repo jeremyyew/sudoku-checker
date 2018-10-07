@@ -5,6 +5,7 @@
 int checkEverySectionParallelized(int *S, int (*getNthSectionKthIndex)(int, int), int start, int end)
 {
     int sum;
+    int flag = 1;
 #pragma omp parallel for
     for (int n = start; n < end; n++)
     {
@@ -16,10 +17,10 @@ int checkEverySectionParallelized(int *S, int (*getNthSectionKthIndex)(int, int)
         if (sum != 45)
         {
             printf("Failed at %dth ", n + 1);
-            return 0;
+            flag = 0;
         }
     }
-    return 1;
+    return flag;
 };
 
 int checkEveryGridParallelized(int *S, int start, int end)

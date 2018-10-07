@@ -1,4 +1,4 @@
-FLAGS= -I include -openmp -lpthread
+FLAGS= -I include -fopenmp -lpthread
 
 toto: clean main2 main
 
